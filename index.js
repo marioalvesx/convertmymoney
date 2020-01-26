@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const path = require('path')
+var port = process.env.PORT || 8080;
 
 const convert = require('./library/convert')
 
@@ -29,7 +30,7 @@ app.get('/quotation', (req, res) => {
     }
 })
 
-app.listen(3000, err => {
+app.listen(port, err => {
     if(err){
         console.log('Não foi possível iniciar')
     }else{
