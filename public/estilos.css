@@ -1,0 +1,32 @@
+body {
+    text-align: center;
+}
+
+h1 img {
+    width: 489px;
+    margin: 20px
+    /* margin: em_cima  */
+}
+
+input {
+    border: 1px solid #000000;
+    background: #fdfdfd;
+    font-size: 20px;
+    padding: 10px;
+    margin: 2px;
+}
+
+button {
+    background: #D8D8D8;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    font-size: 20px;
+    padding: 10px;
+    margin: 4px;
+}
+
+.result{
+    padding: 10px;
+    border: 1px solid #d8d8d8;
+    background: #fdfdfd
+}
