@@ -1,7 +1,8 @@
 const express = require('express')
 const app = express()
 const path = require('path')
-var port = process.env.PORT || 8080;
+// Configuração para receber conexão do Heroku
+const port = process.env.PORT || 3000
 
 const convert = require('./library/convert')
 
