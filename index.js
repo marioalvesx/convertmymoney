@@ -5,13 +5,17 @@ const path = require('path')
 const port = process.env.PORT || 3000
 
 const convert = require('./library/convert')
+const apiBCB = require('./library/api.bcb')
 
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.get('/', (req, res) => {
-    res.render('home')
+app.get('/', async(req, res) => {
+    const quotation = await apiBCB.getQuotation()
+    res.render('home', {
+        quotation
+    })
 })
 
 app.get('/quotation', (req, res) => {
