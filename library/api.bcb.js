@@ -1,13 +1,22 @@
 const axios = require('axios')
 
-//const url = 'https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarDia(dataCotacao=@dataCotacao)?@dataCotacao=%27${data}%27&$top=100&$skip=0&$format=json&$select=cotacaoCompra,cotacaoVenda,dataHoraCotacao'
-const url = `https://economia.awesomeapi.com.br/all/USD-BRL?fbclid=IwAR06i33BB7AT9Ct46H2PvDCirqn4qK01LSkkv58FxhzrfX7j-PoVs_nWaAI`
+const getUrl = date => `https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarDia(dataCotacao=@dataCotacao)?@dataCotacao=%27${date}%27&$top=100&$skip=0&$format=json&$select=cotacaoCompra,cotacaoVenda,dataHoraCotacao`
+const getQuotationAPI = url => axios.get(url)
+const extractQuotation = res => res.data.value[0].cotacaoVenda
 
-const getQuotationAPI = data => axios.get(url)
-const extractQuotation = res => res.data.USD.ask
-const getQuotation = async() => {
+const getToday = () => {
+    const today = new Date()
+    return (
+        today.getMonth()+1+'-'+today.getDate()+'-'+today.getFullYear()
+    );
+}
+
+const getQuotation = ({ getToday, getUrl, getQuotationAPI, extractQuotation }) => async() => {
     try {
-        const res = await getQuotationAPI('')
+        // const getToday = deps.getToday() - Pode usar Destructuring Assignment        
+        const today = getToday()
+        const url = getUrl(today)
+        const res = await getQuotationAPI(url)
         const quotation = extractQuotation(res)
         return quotation
     }catch(err){
@@ -16,7 +25,12 @@ const getQuotation = async() => {
 }
 
 module.exports = {
+    getUrl,
+    getToday,
     getQuotationAPI,
-    getQuotation,
-    extractQuotation
+    getQuotation: getQuotation({ getToday, getUrl, getQuotationAPI, extractQuotation }),
+    extractQuotation,
+    pure: {
+        getQuotation
+    }
 }
